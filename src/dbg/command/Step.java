@@ -7,7 +7,7 @@ import dbg.ScriptableDebugger;
 
 public class Step implements DebuggerCommand {
   @Override
-  public void execute(ScriptableDebugger debugger, VirtualMachine vm, LocatableEvent event) {
+  public boolean execute(ScriptableDebugger debugger, VirtualMachine vm, LocatableEvent event) {
 
     // Crée un StepRequest qui entre dans les méthodes
     StepRequest stepRequest = vm.eventRequestManager().createStepRequest(
@@ -15,5 +15,6 @@ public class Step implements DebuggerCommand {
     );
     stepRequest.enable();
     System.out.println("Step: Exécution de la prochaine instruction.");
+    return true;
   }
 }

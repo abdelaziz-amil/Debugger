@@ -8,7 +8,6 @@ import com.sun.jdi.connect.VMStartException;
 import com.sun.jdi.event.*;
 import com.sun.jdi.request.BreakpointRequest;
 import com.sun.jdi.request.ClassPrepareRequest;
-import com.sun.jdi.request.StepRequest;
 import dbg.command.CommandManager;
 
 import java.io.BufferedReader;
@@ -22,7 +21,7 @@ public class ScriptableDebugger {
     private Class debugClass;
     private VirtualMachine vm;
     private final CommandManager commandManager = new CommandManager();
-    private boolean autoStepping = false;
+    private final String userMessage = "Veuillez taper une commande valide pour continuer le stepping : ";
 
 
     public VirtualMachine connectAndLaunchVM() throws IOException, IllegalConnectorArgumentsException, VMStartException {
@@ -67,12 +66,12 @@ public class ScriptableDebugger {
     private void waitForUserInput(LocatableEvent event) {
         vm.eventRequestManager().deleteEventRequests(vm.eventRequestManager().stepRequests());
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Debugger en pause. Veuillez taper une commande pour continuer le stepping :  : ");
+        System.out.println(userMessage);
         try {
             String input = reader.readLine();
             boolean isValidCommand = commandManager.executeCommand(input, this, vm, event);
             while (!isValidCommand) {
-                System.out.println("Entrez une commande valide : ");
+                System.out.println(userMessage);
                 input = reader.readLine();
                 isValidCommand = commandManager.executeCommand(input, this, vm, event);
             }
@@ -89,6 +88,7 @@ public class ScriptableDebugger {
 
                 if (event instanceof ClassPrepareEvent) {
                     setBreakPoint(debugClass.getName(), 6);
+                    setBreakPoint(debugClass.getName(), 10);
                 }
 
                 if (event instanceof LocatableEvent) {

@@ -6,7 +6,7 @@ import dbg.ScriptableDebugger;
 
 public class Argument implements DebuggerCommand {
   @Override
-  public void execute(ScriptableDebugger debugger, VirtualMachine vm, LocatableEvent event) {
-
+  public boolean execute(ScriptableDebugger debugger, VirtualMachine vm, LocatableEvent event) {
+return true;
   }
 }

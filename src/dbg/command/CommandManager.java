@@ -12,19 +12,20 @@ public class CommandManager {
 
   public CommandManager() {
     commands.put("step", new Step());
-    commands.put("step-over", new StepOver());
+    commands.put("so", new StepOver());
     commands.put("continue", new Continue());
     commands.put("print", new PrintVar());
     commands.put("argument", new Argument());
     commands.put("break", new Break());
     commands.put("bbmc", new BreakBeforeMethodeCall());
+    commands.put("frame", new Frame());
+    commands.put("tmp", new Temporaries());
   }
 
   public boolean executeCommand(String command, ScriptableDebugger debugger, VirtualMachine vm, LocatableEvent event) {
     DebuggerCommand cmd = commands.get(command.toLowerCase().trim());
     if (cmd != null) {
-      cmd.execute(debugger, vm, event);
-      return true;
+      return cmd.execute(debugger, vm, event);
     } else {
       System.out.println("Commande inconnue: " + command);
       return false;

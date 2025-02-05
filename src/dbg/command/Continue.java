@@ -6,8 +6,8 @@ import dbg.ScriptableDebugger;
 
 public class Continue implements DebuggerCommand {
   @Override
-  public void execute(ScriptableDebugger debugger, VirtualMachine vm, LocatableEvent event) {
+  public boolean execute(ScriptableDebugger debugger, VirtualMachine vm, LocatableEvent event) {
     System.out.println("Continue: Reprise de l'exécution.");
-    vm.resume();
+    return true;
   }
 }
