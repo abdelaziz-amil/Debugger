@@ -1,4 +1,12 @@
 package dbg.command;
 
-public class Argument {
+import com.sun.jdi.VirtualMachine;
+import com.sun.jdi.event.LocatableEvent;
+import dbg.ScriptableDebugger;
+
+public class Argument implements DebuggerCommand {
+  @Override
+  public void execute(ScriptableDebugger debugger, VirtualMachine vm, LocatableEvent event) {
+
+  }
 }

@@ -1,4 +1,12 @@
 package dbg.command;
 
-public class BreakOnCount {
+import com.sun.jdi.VirtualMachine;
+import com.sun.jdi.event.LocatableEvent;
+import dbg.ScriptableDebugger;
+
+public class BreakOnCount implements DebuggerCommand {
+  @Override
+  public void execute(ScriptableDebugger debugger, VirtualMachine vm, LocatableEvent event) {
+
+  }
 }

@@ -9,6 +9,7 @@ import com.sun.jdi.event.*;
 import com.sun.jdi.request.BreakpointRequest;
 import com.sun.jdi.request.ClassPrepareRequest;
 import com.sun.jdi.request.StepRequest;
+import dbg.command.CommandManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,7 +21,9 @@ public class ScriptableDebugger {
 
     private Class debugClass;
     private VirtualMachine vm;
+    private final CommandManager commandManager = new CommandManager();
     private boolean autoStepping = false;
+
 
     public VirtualMachine connectAndLaunchVM() throws IOException, IllegalConnectorArgumentsException, VMStartException {
         LaunchingConnector launchingConnector = Bootstrap.virtualMachineManager().defaultConnector();
@@ -61,26 +64,17 @@ public class ScriptableDebugger {
         }
     }
 
-    public void enableStepRequest(LocatableEvent event) {
-        // Supprime les StepRequest existants pour ce thread
-        vm.eventRequestManager().deleteEventRequests(vm.eventRequestManager().stepRequests());
-
-        StepRequest stepRequest = vm.eventRequestManager()
-                .createStepRequest(event.thread(), StepRequest.STEP_MIN, StepRequest.STEP_OVER);
-        stepRequest.enable();
-    }
-
     private void waitForUserInput(LocatableEvent event) {
+        vm.eventRequestManager().deleteEventRequests(vm.eventRequestManager().stepRequests());
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Debugger paused. Type 'step' to continue stepping or press any touch to end the program : ");
+        System.out.println("Debugger en pause. Veuillez taper une commande pour continuer le stepping :  : ");
         try {
             String input = reader.readLine();
-            if ("step".equalsIgnoreCase(input)) {
-                autoStepping = false;
-                enableStepRequest(event);
-            } else {
-                autoStepping = true;
-                enableStepRequest(event);
+            boolean isValidCommand = commandManager.executeCommand(input, this, vm, event);
+            while (!isValidCommand) {
+                System.out.println("Entrez une commande valide : ");
+                input = reader.readLine();
+                isValidCommand = commandManager.executeCommand(input, this, vm, event);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -97,12 +91,8 @@ public class ScriptableDebugger {
                     setBreakPoint(debugClass.getName(), 6);
                 }
 
-                if (event instanceof BreakpointEvent || event instanceof StepEvent) {
-                    if (!autoStepping) {
-                        waitForUserInput((LocatableEvent) event);
-                    } else {
-                        enableStepRequest((LocatableEvent) event);
-                    }
+                if (event instanceof LocatableEvent) {
+                    waitForUserInput((LocatableEvent) event);
                 }
 
                 if (event instanceof VMDisconnectEvent) {
