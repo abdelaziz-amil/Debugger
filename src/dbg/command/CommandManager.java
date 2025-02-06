@@ -14,12 +14,20 @@ public class CommandManager {
     commands.put("step", new Step());
     commands.put("so", new StepOver());
     commands.put("continue", new Continue());
-    commands.put("print", new PrintVar());
-    commands.put("argument", new Argument());
-    commands.put("break", new Break());
-    commands.put("bbmc", new BreakBeforeMethodeCall());
     commands.put("frame", new Frame());
     commands.put("tmp", new Temporaries());
+    commands.put("stack", new Stack());
+    commands.put("receiver", new Receiver());
+    commands.put("sender", new Sender());
+    commands.put("rv", new ReceiverVariable());
+    commands.put("method", new Methode());
+    commands.put("argument", new Argument());
+    commands.put("pv", new PrintVar());
+    commands.put("break", new Break());
+    commands.put("breakpoint", new BreakPoints());
+    commands.put("bo", new BreakOnce());
+    commands.put("boc", new BreakOnCount());
+    commands.put("bbmc", new BreakBeforeMethodeCall());
   }
 
   public boolean executeCommand(String command, ScriptableDebugger debugger, VirtualMachine vm, LocatableEvent event) {

@@ -88,7 +88,6 @@ public class ScriptableDebugger {
 
                 if (event instanceof ClassPrepareEvent) {
                     setBreakPoint(debugClass.getName(), 6);
-                    setBreakPoint(debugClass.getName(), 10);
                 }
 
                 if (event instanceof LocatableEvent) {
@@ -106,8 +105,8 @@ public class ScriptableDebugger {
                         System.out.println("Target VM input stream reading error.");
                     }
                 }
-                vm.resume();
             }
+            vm.resume();
         }
     }
 }
