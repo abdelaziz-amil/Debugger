@@ -8,6 +8,5 @@ public class BreakOnce implements DebuggerCommand {
   @Override
   public boolean execute(ScriptableDebugger debugger, VirtualMachine vm, LocatableEvent event) {
     return true;
-
   }
 }

@@ -23,7 +23,7 @@ public class BreakPoints implements DebuggerCommand {
         System.out.println("- " + loc.sourceName() + ":" + loc.lineNumber());
       }
     }
-    return true;
+    return false;
 
   }
 }

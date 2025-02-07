@@ -2,7 +2,6 @@ package dbg.command;
 
 import com.sun.jdi.*;
 import com.sun.jdi.event.LocatableEvent;
-import com.sun.jdi.request.StepRequest;
 import dbg.ScriptableDebugger;
 
 import java.util.List;

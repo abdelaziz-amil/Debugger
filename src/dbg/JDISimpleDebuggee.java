@@ -5,6 +5,8 @@ public class JDISimpleDebuggee {
     public static void main(String[] args) {
         String description = "Simple power printer";
         System.out.println(description + " -- starting");
+        TestReceiv testReceiv = new TestReceiv();
+        testReceiv.test();
         int x = 40;
         int power = 2;
         printPower(x, power);
@@ -19,4 +21,5 @@ public class JDISimpleDebuggee {
         double powerX = power(x, power);
         System.out.println(powerX);
     }
+
 }

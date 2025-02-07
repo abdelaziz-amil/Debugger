@@ -7,13 +7,19 @@ import dbg.ScriptableDebugger;
 import java.util.List;
 
 public class PrintVar implements DebuggerCommand {
+
+  private String varName;
+
+  public void setVarName(String varName) {
+    this.varName = varName;
+  }
+
   @Override
   public boolean execute(ScriptableDebugger debugger, VirtualMachine vm, LocatableEvent event) {
     try {
       ThreadReference thread = event.thread();
-      StackFrame frame = thread.frame(0); // Récupère la frame courante
+      StackFrame frame = thread.frame(0);
 
-      // Récupérer toutes les variables locales de la méthode actuelle
       List<LocalVariable> variables = frame.visibleVariables();
 
       for (LocalVariable var : variables) {
@@ -31,7 +37,7 @@ public class PrintVar implements DebuggerCommand {
     } catch (IncompatibleThreadStateException e) {
       System.out.println("Erreur : Impossible d'accéder à la stack frame.");
     }
-    return true;
+    return false;
 
   }
 }

@@ -11,9 +11,8 @@ public class Argument implements DebuggerCommand {
   public boolean execute(ScriptableDebugger debugger, VirtualMachine vm, LocatableEvent event) {
     try {
       ThreadReference thread = event.thread();
-      StackFrame frame = thread.frame(0); // Récupère la frame courante
+      StackFrame frame = thread.frame(0);
 
-      // Récupérer les arguments de la méthode
       List<Value> arguments = frame.getArgumentValues();
 
       if (arguments.isEmpty()) {

@@ -16,7 +16,7 @@ public class Sender implements DebuggerCommand {
       if (frames.size() < 2) {
         System.out.println("Aucun appelant trouvé (la méthode en cours est au sommet de la pile).");
       } else {
-        StackFrame senderFrame = frames.get(1); // La frame appelante (celle juste en dessous)
+        StackFrame senderFrame = frames.get(1);
         ObjectReference sender = senderFrame.thisObject();
 
         if (sender != null) {

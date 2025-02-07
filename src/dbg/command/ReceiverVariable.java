@@ -12,8 +12,8 @@ public class ReceiverVariable implements DebuggerCommand {
   public boolean execute(ScriptableDebugger debugger, VirtualMachine vm, LocatableEvent event) {
     try {
       ThreadReference thread = event.thread();
-      StackFrame frame = thread.frame(0); // Récupère la frame en cours
-      ObjectReference receiver = frame.thisObject(); // Récupère `this`
+      StackFrame frame = thread.frame(0);
+      ObjectReference receiver = frame.thisObject();
 
       if (receiver != null) {
         System.out.println("Variables d'instance de " + receiver.referenceType().name() + " :");

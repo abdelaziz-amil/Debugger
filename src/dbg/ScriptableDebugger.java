@@ -14,6 +14,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ScriptableDebugger {
@@ -22,7 +24,28 @@ public class ScriptableDebugger {
     private VirtualMachine vm;
     private final CommandManager commandManager = new CommandManager();
     private final String userMessage = "Veuillez taper une commande valide pour continuer le stepping : ";
+    private int pc = 0;
+    private final List<Location> executionHistory = new ArrayList<>();
 
+    public void recordStep(Location location) {
+        pc++;
+        executionHistory.add(location);
+    }
+
+    public Location decrementPc(int numberOfSteps) {
+        if (pc >= numberOfSteps) {
+            for (int tmp = pc; tmp - numberOfSteps + 1 < pc; pc--){
+                executionHistory.remove(executionHistory.size() - 1);
+            }
+            pc--;
+            return executionHistory.remove(executionHistory.size() - 1);
+        }
+        return null;
+    }
+
+    public int getPc() {
+        return pc;
+    }
 
     public VirtualMachine connectAndLaunchVM() throws IOException, IllegalConnectorArgumentsException, VMStartException {
         LaunchingConnector launchingConnector = Bootstrap.virtualMachineManager().defaultConnector();
@@ -53,6 +76,11 @@ public class ScriptableDebugger {
         classPrepareRequest.enable();
     }
 
+    public void setBreakPoint(Location location) {
+        BreakpointRequest bpReq = vm.eventRequestManager().createBreakpointRequest(location);
+        bpReq.enable();
+    }
+
     public void setBreakPoint(String className, int lineNumber) throws AbsentInformationException {
         for (ReferenceType targetClass : vm.allClasses()) {
             if (targetClass.name().equals(className)) {
@@ -77,10 +105,12 @@ public class ScriptableDebugger {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (AbsentInformationException e) {
+          throw new RuntimeException(e);
         }
     }
 
-    public void startDebugger() throws VMDisconnectedException, InterruptedException, AbsentInformationException {
+    public void startDebugger() throws VMDisconnectedException, InterruptedException, AbsentInformationException, IncompatibleThreadStateException {
         EventSet eventSet;
         while ((eventSet = vm.eventQueue().remove()) != null) {
             for (Event event : eventSet) {
@@ -88,6 +118,7 @@ public class ScriptableDebugger {
 
                 if (event instanceof ClassPrepareEvent) {
                     setBreakPoint(debugClass.getName(), 6);
+                    setBreakPoint(debugClass.getName(), 10);
                 }
 
                 if (event instanceof LocatableEvent) {
@@ -109,4 +140,36 @@ public class ScriptableDebugger {
             vm.resume();
         }
     }
+    public void restartAndReplay(int targetLine) {
+        try {
+            vm.exit(0);
+
+            vm = connectAndLaunchVM();
+            enableClassPrepareRequest(vm);
+
+            startReplay(targetLine);
+
+        } catch (Exception e) {
+            System.out.println("Erreur lors du redémarrage de la VM : " + e.getMessage());
+        }
+    }
+
+    private void startReplay(int targetLine) throws InterruptedException, AbsentInformationException {
+        EventSet eventSet;
+        while ((eventSet = vm.eventQueue().remove()) != null) {
+            for (Event event : eventSet) {
+                if (event instanceof ClassPrepareEvent) {
+                    setBreakPoint(debugClass.getName(), targetLine);
+                }
+
+                if (event instanceof BreakpointEvent) {
+                    System.out.println("✅ Revenu à la ligne " + targetLine);
+                    waitForUserInput((LocatableEvent) event);
+                    return;
+                }
+            }
+            vm.resume();
+        }
+    }
+
 }
