@@ -1,26 +1,23 @@
 package dbg.command;
 
+import com.sun.jdi.AbsentInformationException;
 import com.sun.jdi.Location;
-import com.sun.jdi.StackFrame;
-import com.sun.jdi.ThreadReference;
 import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.event.LocatableEvent;
-import com.sun.jdi.request.BreakpointRequest;
 import dbg.ScriptableDebugger;
-import dbg.history.ExecutionHistory;
-
-import java.util.List;
 
 public class StepBackCommand implements DebuggerCommand {
 
   @Override
-  public boolean execute(ScriptableDebugger debugger, VirtualMachine vm, LocatableEvent event) {
+  public boolean execute(ScriptableDebugger debugger, VirtualMachine vm, LocatableEvent event) throws AbsentInformationException {
     if (debugger.getPc() < 1) {
       System.out.println("Impossible de revenir en arrière : pas assez d'historique.");
       return false;
     }
 
-    int previousLine = debugger.decrementPc(1).lineNumber();
+    Location previousLocation = debugger.decrementPc(1);
+    int previousLine = previousLocation.lineNumber();
+    String previousClass = previousLocation.declaringType().name();
 
 
     if (previousLine == -1) {
@@ -29,7 +26,7 @@ public class StepBackCommand implements DebuggerCommand {
     }
 
     System.out.println("Step-back: Retour à la ligne " + previousLine);
-    debugger.restartAndReplay(previousLine);
+    debugger.restartAndReplay(previousLine, previousClass);
     return true;
   }
 

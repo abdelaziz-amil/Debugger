@@ -140,21 +140,21 @@ public class ScriptableDebugger {
             vm.resume();
         }
     }
-    public void restartAndReplay(int targetLine) {
+    public void restartAndReplay(int targetLine, String targetClassName) {
         try {
             vm.exit(0);
 
             vm = connectAndLaunchVM();
             enableClassPrepareRequest(vm);
 
-            startReplay(targetLine);
+            startReplay(targetLine, targetClassName);
 
         } catch (Exception e) {
             System.out.println("Erreur lors du redémarrage de la VM : " + e.getMessage());
         }
     }
 
-    private void startReplay(int targetLine) throws InterruptedException, AbsentInformationException {
+    private void startReplay(int targetLine, String targetClassName) throws InterruptedException, AbsentInformationException {
         EventSet eventSet;
         while ((eventSet = vm.eventQueue().remove()) != null) {
             for (Event event : eventSet) {

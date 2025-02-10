@@ -14,7 +14,7 @@ public class Step implements DebuggerCommand {
       debugger.recordStep(location);  // 🔥 Enregistre le step
 
       StepRequest stepRequest = vm.eventRequestManager()
-              .createStepRequest(event.thread(), StepRequest.STEP_LINE, StepRequest.STEP_OVER);
+              .createStepRequest(event.thread(), StepRequest.STEP_LINE, StepRequest.STEP_INTO);
       stepRequest.enable();
       System.out.println("Step: Exécution de la prochaine instruction.");
       return true;
