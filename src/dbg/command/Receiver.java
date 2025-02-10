@@ -13,12 +13,12 @@ public class Receiver implements DebuggerCommand {
       ObjectReference receiver = frame.thisObject();
 
       if (receiver != null) {
-        System.out.println("Receveur courant (this) : " + receiver.referenceType().name());
+        debugger.log("Receveur courant (this) : " + receiver.referenceType().name());
       } else {
-        System.out.println("Aucun receveur (la méthode est statique).");
+        debugger.log("Aucun receveur (la méthode est statique).");
       }
     } catch (IncompatibleThreadStateException e) {
-      System.out.println("Erreur lors de la récupération du receveur : " + e.getMessage());
+      debugger.log("Erreur lors de la récupération du receveur : " + e.getMessage());
     }
     return false;
   }

@@ -25,17 +25,17 @@ public class PrintVar implements DebuggerCommand {
       for (LocalVariable var : variables) {
         if (var.name().equals(varName)) {
           Value value = frame.getValue(var);
-          System.out.println(varName + " → " + value);
+          debugger.log(varName + " → " + value);
           return false;
         }
       }
 
-      System.out.println("Variable '" + varName + "' non trouvée dans la frame.");
+      debugger.log("Variable '" + varName + "' non trouvée dans la frame.");
 
     } catch (AbsentInformationException e) {
-      System.out.println("Erreur : Les informations de débogage ne sont pas disponibles (compiler avec -g).");
+      debugger.log("Erreur : Les informations de débogage ne sont pas disponibles (compiler avec -g).");
     } catch (IncompatibleThreadStateException e) {
-      System.out.println("Erreur : Impossible d'accéder à la stack frame.");
+      debugger.log("Erreur : Impossible d'accéder à la stack frame.");
     }
     return false;
 

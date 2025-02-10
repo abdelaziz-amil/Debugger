@@ -16,16 +16,16 @@ public class Argument implements DebuggerCommand {
       List<Value> arguments = frame.getArgumentValues();
 
       if (arguments.isEmpty()) {
-        System.out.println("Aucun argument pour la méthode.");
+        debugger.log("Aucun argument pour la méthode.");
       } else {
-        System.out.println("Arguments de la méthode :");
+        debugger.log("Arguments de la méthode :");
         for (Value value : arguments) {
-          System.out.println(value.type().name() + " → " + value);
+          debugger.log(value.type().name() + " → " + value);
         }
       }
 
     } catch (IncompatibleThreadStateException e) {
-      System.out.println("Erreur lors de la récupération des arguments : " + e.getMessage());
+      debugger.log("Erreur lors de la récupération des arguments : " + e.getMessage());
     }
     return false;
   }

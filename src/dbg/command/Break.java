@@ -22,14 +22,14 @@ public class Break implements DebuggerCommand {
           for (Location location : refType.locationsOfLine(lineNumber)) {
             BreakpointRequest breakpointRequest = vm.eventRequestManager().createBreakpointRequest(location);
             breakpointRequest.enable();
-            System.out.println("Point d'arrêt installé à " + location);
+            debugger.log("Point d'arrêt installé à " + location);
           }
           return false;
         }
       }
-      System.out.println("Fichier " + fileName + " non trouvé.");
+      debugger.log("Fichier " + fileName + " non trouvé.");
     } catch (AbsentInformationException e) {
-      System.out.println("Erreur lors de la création du point d'arrêt : " + e.getMessage());
+      debugger.log("Erreur lors de la création du point d'arrêt : " + e.getMessage());
     }
     return false;
   }

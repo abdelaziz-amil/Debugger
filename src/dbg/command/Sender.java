@@ -14,20 +14,20 @@ public class Sender implements DebuggerCommand {
       List<StackFrame> frames = thread.frames();
 
       if (frames.size() < 2) {
-        System.out.println("Aucun appelant trouvé (la méthode en cours est au sommet de la pile).");
+        debugger.log("Aucun appelant trouvé (la méthode en cours est au sommet de la pile).");
       } else {
         StackFrame senderFrame = frames.get(1);
         ObjectReference sender = senderFrame.thisObject();
 
         if (sender != null) {
-          System.out.println("Objet appelant : " + sender.referenceType().name());
+          debugger.log("Objet appelant : " + sender.referenceType().name());
         } else {
-          System.out.println("L'appelant est une méthode statique.");
+          debugger.log("L'appelant est une méthode statique.");
         }
       }
 
     } catch (IncompatibleThreadStateException e) {
-      System.out.println("Erreur lors de la récupération de l'appelant : " + e.getMessage());
+      debugger.log("Erreur lors de la récupération de l'appelant : " + e.getMessage());
     }
     return false;
 

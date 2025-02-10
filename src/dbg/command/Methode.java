@@ -12,10 +12,10 @@ public class Methode implements DebuggerCommand {
       StackFrame frame = thread.frame(0);
       Method method = frame.location().method();
 
-      System.out.println("Méthode en cours d'exécution : " + method.name());
+      debugger.log("Méthode en cours d'exécution : " + method.name());
 
     } catch (IncompatibleThreadStateException e) {
-      System.out.println("Erreur lors de la récupération de la méthode : " + e.getMessage());
+      debugger.log("Erreur lors de la récupération de la méthode : " + e.getMessage());
     }
 
     return false;

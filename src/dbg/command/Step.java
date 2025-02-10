@@ -14,12 +14,12 @@ public class Step implements DebuggerCommand {
       debugger.recordStep(location);  // 🔥 Enregistre le step
 
       StepRequest stepRequest = vm.eventRequestManager()
-              .createStepRequest(event.thread(), StepRequest.STEP_LINE, StepRequest.STEP_OVER);
+              .createStepRequest(event.thread(), StepRequest.STEP_LINE, StepRequest.STEP_INTO);
       stepRequest.enable();
-      System.out.println("Step: Exécution de la prochaine instruction.");
+      debugger.log("Step: Exécution de la prochaine instruction.");
       return true;
     } catch (Exception e) {
-      System.out.println("Erreur lors du step : " + e.getMessage());
+      debugger.log("Erreur lors du step : " + e.getMessage());
       return false;
     }
   }

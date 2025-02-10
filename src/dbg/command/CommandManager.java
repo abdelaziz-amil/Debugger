@@ -6,7 +6,6 @@ import com.sun.jdi.event.LocatableEvent;
 import dbg.ScriptableDebugger;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CommandManager {
@@ -29,9 +28,6 @@ public class CommandManager {
     commands.put("breakpoint", new BreakPoints());
     commands.put("step-back", new StepBackCommand());
     commands.put("sbn", new StepBackNCommand());
-    //commands.put("bo", new BreakOnce());
-    //commands.put("boc", new BreakOnCount());
-    //commands.put("bbmc", new BreakBeforeMethodeCall());
   }
 
   public boolean executeCommand(String command, ScriptableDebugger debugger, VirtualMachine vm, LocatableEvent event) throws AbsentInformationException {
@@ -54,7 +50,7 @@ public class CommandManager {
     if (cmd != null) {
       return cmd.execute(debugger, vm, event);
     } else {
-      System.out.println("Commande inconnue: " + command);
+      debugger.log("Commande inconnue: " + command);
       return false;
     }
   }

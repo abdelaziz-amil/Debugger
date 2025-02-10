@@ -14,7 +14,7 @@ public class StepOver implements DebuggerCommand {
             event.thread(), StepRequest.STEP_LINE, StepRequest.STEP_OVER
     );
     stepRequest.enable();
-    System.out.println("Step Over: Exécution de la ligne courante.");
+    debugger.log("Step Over: Exécution de la ligne courante.");
     return true;
   }
 }

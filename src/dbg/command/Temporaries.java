@@ -16,22 +16,22 @@ public class Temporaries implements DebuggerCommand {
         List<LocalVariable> variables = frame.visibleVariables();
 
         if (variables.isEmpty()) {
-          System.out.println("Aucune variable locale disponible.");
+          debugger.log("Aucune variable locale disponible.");
         } else {
-          System.out.println("Variables locales :");
+          debugger.log("Variables locales :");
           for (LocalVariable var : variables) {
             Value value = frame.getValue(var);
-            System.out.println(var.name() + " → " + (value != null ? value.toString() : "null"));
+            debugger.log(var.name() + " → " + (value != null ? value.toString() : "null"));
           }
         }
 
       } else {
-        System.out.println("Aucune frame disponible.");
+        debugger.log("Aucune frame disponible.");
       }
     } catch (AbsentInformationException e) {
-      System.out.println("Impossible de récupérer les variables locales : " + e.getMessage());
+      debugger.log("Impossible de récupérer les variables locales : " + e.getMessage());
     } catch (IncompatibleThreadStateException e) {
-      System.out.println("Impossible de récupérer la frame courante : " + e.getMessage());
+      debugger.log("Impossible de récupérer la frame courante : " + e.getMessage());
     }
 return false;
   }

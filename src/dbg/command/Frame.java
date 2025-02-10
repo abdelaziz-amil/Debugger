@@ -15,12 +15,12 @@ public class Frame implements DebuggerCommand {
       if (thread.frameCount() > 0) {
         StackFrame frame = thread.frame(0);
 
-        System.out.println("Frame courante : " + frame.location());
+        debugger.log("Frame courante : " + frame.location());
       } else {
-        System.out.println("Aucune frame disponible.");
+        debugger.log("Aucune frame disponible.");
       }
     } catch (IncompatibleThreadStateException e) {
-      System.out.println("Impossible de récupérer la frame courante : " + e.getMessage());
+      debugger.log("Impossible de récupérer la frame courante : " + e.getMessage());
     }
     return false;
   }

@@ -16,7 +16,7 @@ public class StepBackNCommand implements DebuggerCommand {
   @Override
   public boolean execute(ScriptableDebugger debugger, VirtualMachine vm, LocatableEvent event) throws AbsentInformationException {
     if (debugger.getPc() < steps) {
-      System.out.println("Impossible de revenir en arrière : pas assez d'historique.");
+      debugger.log("Impossible de revenir en arrière : pas assez d'historique.");
       return false;
     }
 
@@ -24,11 +24,11 @@ public class StepBackNCommand implements DebuggerCommand {
 
 
     if (previousLine == -1) {
-      System.out.println("Erreur : pas de ligne précédente trouvée.");
+      debugger.log("Erreur : pas de ligne précédente trouvée.");
       return false;
     }
 
-    System.out.println("Step-back: Retour à la ligne " + previousLine);
+    debugger.log("Step-back: Retour à la ligne " + previousLine);
     debugger.restartAndReplay(previousLine);
     return true;  }
 }

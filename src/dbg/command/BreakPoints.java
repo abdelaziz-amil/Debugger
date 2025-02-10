@@ -15,12 +15,12 @@ public class BreakPoints implements DebuggerCommand {
     List<BreakpointRequest> breakpoints = vm.eventRequestManager().breakpointRequests();
 
     if (breakpoints.isEmpty()) {
-      System.out.println("Aucun point d'arrêt actif.");
+      debugger.log("Aucun point d'arrêt actif.");
     } else {
-      System.out.println("Points d'arrêt actifs :");
+      debugger.log("Points d'arrêt actifs :");
       for (BreakpointRequest bp : breakpoints) {
         Location loc = bp.location();
-        System.out.println("- " + loc.sourceName() + ":" + loc.lineNumber());
+        debugger.log("- " + loc.sourceName() + ":" + loc.lineNumber());
       }
     }
     return false;
