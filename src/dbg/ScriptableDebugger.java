@@ -13,7 +13,6 @@ import dbg.command.CommandManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.EventQueue;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,9 +61,9 @@ public class ScriptableDebugger {
         receiverVariableButton = new JButton("Receiver Variable");
         methodButton = new JButton("Method");
         argumentButton = new JButton("Argument");
-        printVarButton = new JButton("Print");
-        stepBackButton = new JButton("Step Back");
-        breakButton = new JButton("Break");
+        //printVarButton = new JButton("Print");
+        //stepBackButton = new JButton("Step Back");
+        //breakButton = new JButton("Break");
         breakpointButton = new JButton("Breakpoint");
 
         stepButton.addActionListener(e -> executeCommand("step"));
@@ -78,9 +77,9 @@ public class ScriptableDebugger {
         receiverVariableButton.addActionListener(e -> executeCommand("rv"));
         methodButton.addActionListener(e -> executeCommand("method"));
         argumentButton.addActionListener(e -> executeCommand("argument"));
-        printVarButton.addActionListener(e -> executeCommand("print"));
-        stepBackButton.addActionListener(e -> executeCommand("step-back"));
-        breakButton.addActionListener(e -> executeCommand("break"));
+        //printVarButton.addActionListener(e -> executeCommand("print"));
+        //stepBackButton.addActionListener(e -> executeCommand("step-back"));
+        //breakButton.addActionListener(e -> executeCommand("break"));
         breakpointButton.addActionListener(e -> executeCommand("breakpoint"));
         // Boutons de commande
         JPanel buttonPanel = new JPanel();
@@ -96,10 +95,10 @@ public class ScriptableDebugger {
         buttonPanel.add(receiverVariableButton);
         buttonPanel.add(methodButton);
         buttonPanel.add(argumentButton);
-        buttonPanel.add(printVarButton);
+        //buttonPanel.add(printVarButton);
         buttonPanel.add(breakpointButton);
-        buttonPanel.add(stepBackButton);
-        buttonPanel.add(breakButton);
+        //buttonPanel.add(stepBackButton);
+        //buttonPanel.add(breakButton);
         buttonPanel.add(breakpointButton);
 
 
